@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Face Verification</title>
+</head>
+<body>
+    <h2>Register Face</h2>
+    <input type="text" id="register_user_id" placeholder="User ID">
+    <input type="file" id="register_image">
+    <button onclick="registerFace()">Register</button>
+    <p id="register_result"></p>
+
+    <h2>Verify Face</h2>
+    <input type="text" id="verify_user_id" placeholder="User ID">
+    <input type="file" id="verify_image">
+    <button onclick="verifyFace()">Verify</button>
+    <p id="verify_result"></p>
+
+    <script>
+        async function registerFace() {
+            let formData = new FormData();
+            formData.append("user_id", document.getElementById("register_user_id").value);
+            formData.append("file", document.getElementById("register_image").files[0]);
+
+            let response = await fetch("/register_face", { method: "POST", body: formData });
+            let result = await response.json();
+            document.getElementById("register_result").innerText = JSON.stringify(result);
+        }
+
+        async function verifyFace() {
+            let formData = new FormData();
+            formData.append("user_id", document.getElementById("verify_user_id").value);
+            formData.append("file", document.getElementById("verify_image").files[0]);
+
+            let response = await fetch("/verify_face", { method: "POST", body: formData });
+            let result = await response.json();
+            document.getElementById("verify_result").innerText = JSON.stringify(result);
+        }
+    </script>
+</body>
+</html>
